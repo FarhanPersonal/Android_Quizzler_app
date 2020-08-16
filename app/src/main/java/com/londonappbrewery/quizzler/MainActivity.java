@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * This is the main file for Java code
@@ -48,18 +49,27 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * FR: Event-handler for True button
+     * FR: Event-handler function or call-back function for the True button
      * @param view
      */
     public void answeredTrue(View view) {
         Log.d("Quizzler", "True button pressed");
+
+        Toast toast = new Toast(this.getApplicationContext());
+        toast = Toast.makeText(this.getApplicationContext(), "You answered True", Toast.LENGTH_LONG);
+        toast.show();
+
     }
 
     /**
-     * FR: Event-handler for False button
+     * FR: Event-handler function or call-back function for the False button
      * @param view
      */
     public void answeredFalse(View view) {
         Log.d("Quizzler", "False button pressed");
+
+        Toast toast = new Toast(this.getApplicationContext());
+        toast = Toast.makeText(this.getApplicationContext(), "You answered False", Toast.LENGTH_LONG);
+        toast.show();
     }
 }
