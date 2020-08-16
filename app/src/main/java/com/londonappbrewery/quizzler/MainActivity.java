@@ -2,13 +2,23 @@ package com.londonappbrewery.quizzler;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+/**
+ * This is the main file for Java code
+ * @author Farhan Rahman
+ * @version 08/16/2020_01
+ */
 public class MainActivity extends Activity {
 
     // TODO: Declare constants here
 
 
     // TODO: Declare member variables here:
+    Button mTrueButton;
+    Button mFalseButton;
 
 
     // TODO: Uncomment to create question bank
@@ -33,7 +43,23 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mTrueButton =   findViewById(R.id.true_button);
+        mFalseButton =   findViewById(R.id.false_button);
+    }
 
+    /**
+     * FR: Event-handler for True button
+     * @param view
+     */
+    public void answeredTrue(View view) {
+        Log.d("Quizzler", "True button pressed");
+    }
 
+    /**
+     * FR: Event-handler for False button
+     * @param view
+     */
+    public void answeredFalse(View view) {
+        Log.d("Quizzler", "False button pressed");
     }
 }
