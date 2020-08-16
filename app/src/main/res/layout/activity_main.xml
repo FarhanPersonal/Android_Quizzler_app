@@ -62,7 +62,7 @@
             style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:background="@color/colorTrueButton"
             android:textSize="20sp"
-            android:onClick="answeredTrue"/>
+            android:onClick="OnClick_btn_True"/>
 
         <Button
             android:layout_width="150dp"
@@ -74,7 +74,7 @@
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:onClick="answeredFalse"/>
+            android:onClick="OnClick_btn_False"/>
     </LinearLayout>
 
 </RelativeLayout>
