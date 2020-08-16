@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 /**
  * This is the main file for Java code
@@ -20,24 +23,25 @@ public class MainActivity extends Activity {
     // TODO: Declare member variables here:
     Button mTrueButton;
     Button mFalseButton;
+    TextView mQuestionText;
 
 
     // TODO: Uncomment to create question bank
-//    private TrueFalse[] mQuestionBank = new TrueFalse[] {
-//            new TrueFalse(R.string.question_1, true),
-//            new TrueFalse(R.string.question_2, true),
-//            new TrueFalse(R.string.question_3, true),
-//            new TrueFalse(R.string.question_4, true),
-//            new TrueFalse(R.string.question_5, true),
-//            new TrueFalse(R.string.question_6, false),
-//            new TrueFalse(R.string.question_7, true),
-//            new TrueFalse(R.string.question_8, false),
-//            new TrueFalse(R.string.question_9, true),
-//            new TrueFalse(R.string.question_10, true),
-//            new TrueFalse(R.string.question_11, false),
-//            new TrueFalse(R.string.question_12, false),
-//            new TrueFalse(R.string.question_13,true)
-//    };
+    private Question[] mQuestionBank = new Question[] {
+            new Question(R.string.question_1, true),
+            new Question(R.string.question_2, true),
+            new Question(R.string.question_3, true),
+            new Question(R.string.question_4, true),
+            new Question(R.string.question_5, true),
+            new Question(R.string.question_6, false),
+            new Question(R.string.question_7, true),
+            new Question(R.string.question_8, false),
+            new Question(R.string.question_9, true),
+            new Question(R.string.question_10, true),
+            new Question(R.string.question_11, false),
+            new Question(R.string.question_12, false),
+            new Question(R.string.question_13,true)
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,13 @@ public class MainActivity extends Activity {
 
         mTrueButton =   findViewById(R.id.true_button);
         mFalseButton =   findViewById(R.id.false_button);
+        mQuestionText = findViewById(R.id.question_text_view);
+
+        Random random = new Random();
+        int questionNumber = random.nextInt(13);
+
+        String question = (String) this.getText(mQuestionBank[questionNumber].getId());
+        mQuestionText.setText(question);
     }
 
     /**
@@ -58,6 +69,8 @@ public class MainActivity extends Activity {
         Toast toast = new Toast(this.getApplicationContext());
         toast = Toast.makeText(this.getApplicationContext(), "You answered True", Toast.LENGTH_LONG);
         toast.show();
+
+
 
     }
 
