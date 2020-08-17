@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,28 +17,37 @@ import java.util.Random;
  */
 public class MainActivity extends Activity {
 
-    // TODO: Declare constants here
 
-    // TODO: Declare member variables here:
-    Button mTrueButton;
-    Button mFalseButton;
-    TextView mQuestionText;
-    int mQuestionIndex;
+    //region Fields
+    private Button _trueButton;
+    private Button _falseButton;
+    private TextView _questionTextView;
+    private int _questionIndex;
+    private Question[] _questionBank;
 
-    // TODO: Uncomment to create question bank
-    private Question[] mQuestionBank;
+    private TextView _scoreTextView;
+    private int _score;
+    private ProgressBar _progressBar;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTrueButton =   findViewById(R.id.true_button);
-        mFalseButton =   findViewById(R.id.false_button);
-        mQuestionText = findViewById(R.id.question_text_view);
+        _score = 0;
+        _questionIndex = 0;
 
-        mQuestionBank = Question.getQuestionBank();
-        askNextRandomQuestion();
+        _trueButton =   findViewById(R.id.true_button);
+        _falseButton =   findViewById(R.id.false_button);
+        _questionTextView = findViewById(R.id.question_text_view);
+        _scoreTextView = this.findViewById(R.id.score);
+        _progressBar = this.findViewById(R.id.progress_bar);
+
+        _questionBank = Question.getQuestionBank();
+
+//        askNextRandomQuestion();
+        askQuestion();
     }
 
 
@@ -47,34 +57,51 @@ public class MainActivity extends Activity {
      * @param view
      */
     public void OnClick_btn_True(View view) {
-        showMessage("You answered true");
+        showMessage(getString(R.string.true_button));
         checkAnswer(true);
 
-        askNextRandomQuestion();
-
+//        askNextRandomQuestion();
+        askQuestion();
     }
     /**
      * FR: Event-handler function or call-back function for the False button
      * @param view
      */
     public void OnClick_btn_False(View view) {
-        showMessage("You answered false");
+        showMessage(this.getString(R.string.false_button));
         checkAnswer(false);
 
-        askNextRandomQuestion();
+//        askNextRandomQuestion();
+        askQuestion();
     }
 
     private void checkAnswer(boolean answer) {
-        if (this.mQuestionBank[this.mQuestionIndex].getAnswer() == answer) {showMessage("You are right");}
-        else {showMessage("You are wrong");}
+        if (this._questionBank[this._questionIndex].getAnswer() == answer) {
+            showMessage(this.getString(R.string.correct_toast));
+            _score++;
+            _scoreTextView.setText("Score" + _score + "/" + _questionBank.length );
+            _progressBar.incrementProgressBy(1);
+        }
+        else {showMessage(this.getString(R.string.incorrect_toast));
+            _progressBar.incrementProgressBy(1);}
     }
 
     private void askNextRandomQuestion() {
         Random random = new Random();
-        this.mQuestionIndex = random.nextInt(13);
+        this._questionIndex = random.nextInt(13);
 
-        String question = (String) this.getText(mQuestionBank[this.mQuestionIndex].getId());
-        mQuestionText.setText(question);
+        String question = (String) this.getText(_questionBank[this._questionIndex].getId());
+        _questionTextView.setText(question);
+    }
+
+    private void askQuestion() {
+        if(this._questionIndex == _questionBank.length){
+            this._questionIndex = 0;
+        }
+
+        String question = (String) this.getText(_questionBank[this._questionIndex].getId());
+        _questionTextView.setText(question);
+        this._questionIndex++;
     }
 
     private void showMessage(String message) {
