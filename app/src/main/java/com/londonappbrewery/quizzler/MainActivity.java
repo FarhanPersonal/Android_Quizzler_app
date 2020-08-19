@@ -2,6 +2,7 @@ package com.londonappbrewery.quizzler;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -17,7 +18,6 @@ import java.util.Random;
  */
 public class MainActivity extends Activity {
 
-
     //region Fields
     private Button _trueButton;
     private Button _falseButton;
@@ -32,25 +32,33 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        if(savedInstanceState != null) {
+            _score = savedInstanceState.getInt("ScoreKey");
+            _questionIndex = savedInstanceState.getInt("IndexKey");
+
+            Log.d("Rotated", "score = " + _score);
+        }
+
+        else {
+            _score = 0;
+            _questionIndex = 1;
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _score = 0;
-        _questionIndex = 0;
-
-        _trueButton =   findViewById(R.id.true_button);
-        _falseButton =   findViewById(R.id.false_button);
-        _questionTextView = findViewById(R.id.question_text_view);
+        _questionBank = Question.getQuestionBank();
         _scoreTextView = this.findViewById(R.id.score);
+        _trueButton = findViewById(R.id.true_button);
+        _falseButton = findViewById(R.id.false_button);
+        _questionTextView = findViewById(R.id.question_text_view);
         _progressBar = this.findViewById(R.id.progress_bar);
 
-        _questionBank = Question.getQuestionBank();
+        updateScore();
 
-//        askNextRandomQuestion();
-        askQuestion();
     }
-
-
 
     /**
      * FR: Event-handler function or call-back function for the True button
@@ -63,6 +71,7 @@ public class MainActivity extends Activity {
 //        askNextRandomQuestion();
         askQuestion();
     }
+
     /**
      * FR: Event-handler function or call-back function for the False button
      * @param view
@@ -79,11 +88,15 @@ public class MainActivity extends Activity {
         if (this._questionBank[this._questionIndex].getAnswer() == answer) {
             showMessage(this.getString(R.string.correct_toast));
             _score++;
-            _scoreTextView.setText("Score" + _score + "/" + _questionBank.length );
+            updateScore();
             _progressBar.incrementProgressBy(1);
         }
         else {showMessage(this.getString(R.string.incorrect_toast));
             _progressBar.incrementProgressBy(1);}
+    }
+
+    private void updateScore() {
+        _scoreTextView.setText("Score " + _score + "/" + _questionBank.length );
     }
 
     private void askNextRandomQuestion() {
@@ -108,5 +121,13 @@ public class MainActivity extends Activity {
         Toast toast = new Toast(this.getApplicationContext());
         toast = Toast.makeText(this.getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("ScoreKey", _score);
+        outState.putInt("IndexKey", _questionIndex);
     }
 }
