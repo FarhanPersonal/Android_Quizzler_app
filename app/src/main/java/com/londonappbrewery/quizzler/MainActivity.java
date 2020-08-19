@@ -123,6 +123,10 @@ public class MainActivity extends Activity {
         toast.show();
     }
 
+    /**
+     * Saves state of the app when the screen is rotated.
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
